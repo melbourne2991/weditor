@@ -1,6 +1,5 @@
 const webpack = require('webpack');
 const path = require('path');
-const LookupPlugin = require('./LookupPlugin');
 const { fsin, fsout } = require('./memoryfs');
 const packageLoader = require('./packageLoader');
 
@@ -9,17 +8,17 @@ const packageLoader = require('./packageLoader');
 fsin.mkdirpSync('/src');
 
 // Load in dependencies
-packageLoader(fsin, '/node_modules', [
+packageLoader(fsin, '/', [
   'webpack',
   'webpack-hot-middleware'
 ], { verbose: true });
 
 const compiler = webpack({
-  // context: '/',
-	entry: ['webpack-hot-middleware/client', '/src/index.js'],
+	entry: ['webpack-hot-middleware/client?path=/assets/__hmr__', '/src/index.js'],
   output: {
     path: '/dist',
-    filename: 'bundle.js'
+    filename: 'bundle.js',
+    publicPath: '/assets/'
   },
   module: {
     rules: [
@@ -29,20 +28,12 @@ const compiler = webpack({
       }
     ]
   },
-  // watchOptions: {
-  //   aggregateTimeout: 500,
-  //   poll: 1000
-  // },
+  devServer: {
+    publicPath: '/assets'
+  },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
-    new LookupPlugin()
+    new webpack.HotModuleReplacementPlugin()
   ]
-  // resolve: {
-  //   modules: ['/node_modules']
-  // },
-  // resolveLoader: {
-  //   modules: [path.resolve(__dirname, '../node_modules')]
-  // }
 });
 
 compiler.inputFileSystem = fsin;

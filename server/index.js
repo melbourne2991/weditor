@@ -8,11 +8,11 @@ const app = express();
 
 const wdmInstance = wdm(compiler, {
   index: 'index.html',
-  // publicPath: '/assets'
+  publicPath: '/assets/'
 });
 
 const whmInstance = whm(compiler, {
-  // path: '/assets'
+  path: '/assets/__hmr__'
 });
 
 app.use(wdmInstance);

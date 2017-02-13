@@ -19,12 +19,9 @@ module.exports = function packageLoader(fsin, mountPoint, packageNames, opts = {
       if(err) return console.log(err);
 
       filePaths.forEach((filePath) => {
-        // Subtract NODE_MODULES_PATH
-        const relativePath =  filePath.split(NODE_MODULES_PATH).slice(1)[0]
-
         // split into parts separated by "/", 
         // remove first item as it is empty string
-        const parts = relativePath.split(path.sep).slice(1);
+        const parts = filePath.split(path.sep).slice(1);
 
         const finalPath = parts.reduce((completePath, part) => {
           if (!fsin.existsSync(completePath)) {
@@ -44,6 +41,6 @@ module.exports = function packageLoader(fsin, mountPoint, packageNames, opts = {
       });
     });
 
-    packageLoader(fsin, mountPoint, Object.keys(packageJson.dependencies || {}));
+    packageLoader(fsin, mountPoint, Object.keys(packageJson.dependencies || {}), opts);
   });
 };
