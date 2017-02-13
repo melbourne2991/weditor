@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --open",
+    "start": "NODE_ENV=development node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -23,6 +23,7 @@
   "dependencies": {
     "memory-fs": "^0.4.1",
     "recursive-readdir": "^2.1.0",
+    "socket.io": "^1.7.2",
     "webpack-hot-middleware": "^2.16.1"
   }
 }
